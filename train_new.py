@@ -23,10 +23,10 @@ weight_decay = 1e-4
 
 PARAMS = {
     "arcface": [1., 0.5, 0., 0.],
+    "arcface_extend": [1., 0.5, 0., None],
     "cosface": [1., 0., .35, 0.],
-    "cosface_extend": [1., 0., .35, None],
+    #"cosface_extend": [1., 0., .35, None],
     "sphereface": [1.35, 0., 0., 0.],
-    "sphereface_extend": [1.35, 0., 0., None],
     "normface": [1., 0., 0., 0.]
     }
 
@@ -77,11 +77,11 @@ class CosSerisLayer(Layer):
         self.scale = scale
         self.regularizer = regularizers.get(regularizer)
 
-
     def build(self, input_shape):
         print("input_shape", input_shape)
         super(CosSerisLayer, self).build(input_shape)
         self.input_dim = input_shape[0][-1]
+        print(self.m1, self.m2, self.m3, self.m4)
         self.w = self.add_weight(
                 name="W",
                 shape=(self.input_dim, self.output_dim),
@@ -89,6 +89,18 @@ class CosSerisLayer(Layer):
                 trainable=True,
                 regularizer=self.regularizer
             )
+
+    def get_config(self):
+        cfg = super().get_config()
+        '''cfg["m1"] = self.m1
+        cfg["m2"] = self.m2
+        cfg["m3"] = self.m3
+        cfg["m4"] = self.m4
+        cfg["scale"] = self.scale
+        cfg["input_dim"] = self.input_dim
+        '''
+        print(self.m1, self.m2, self.m3, self.m4)
+        return cfg
 
     def call(self, inputs):
         x, onehot = inputs

@@ -1,5 +1,5 @@
-archs="arcface cosface cosface_extend sphereface sphereface_extend normface"
+archs="arcface arcface_extend cosface sphereface normface"
 for i in $archs
-  do 
+do 
     python train_new.py --draw --arch $i
-  done;
+done;
